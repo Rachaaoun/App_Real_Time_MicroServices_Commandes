@@ -1,4 +1,4 @@
-package com.ecommerce.order.avro;
+package com.ecommerce.avro;
 
 // Généré automatiquement par Avro maven plugin ou manuellement
 

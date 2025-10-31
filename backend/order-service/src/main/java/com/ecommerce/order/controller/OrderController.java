@@ -1,5 +1,6 @@
 package com.ecommerce.order.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.order.avro.Order;
 import com.ecommerce.order.kafka.OrderProducer;
+import com.ecommerce.order.model.OrderEntity;
+import com.ecommerce.order.service.OrderService;
+
 import java.util.HashMap;
 import java.util.Map;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -21,10 +25,12 @@ public class OrderController {
 
     private final OrderProducer orderProducer;
     private final KafkaTemplate<String, Order> kafkaTemplate;
+    private final OrderService orderService;
 
-    public OrderController(OrderProducer orderProducer,KafkaTemplate<String, Order> kafkaTemplate) {
+    public OrderController(OrderProducer orderProducer,KafkaTemplate<String, Order> kafkaTemplate,OrderService orderService) {
         this.orderProducer = orderProducer;
          this.kafkaTemplate = kafkaTemplate;
+         this.orderService =orderService;
     }
 
     @GetMapping("/hello")
@@ -63,4 +69,16 @@ public class OrderController {
                     .body("Erreur lors de l'envoi de l'order : " + e.getMessage());
         }
     }
+
+
+     @PostMapping
+    public String createOrder(@RequestBody OrderEntity order) {
+        try {
+            orderService.createOrder(order);
+            return "✅ Order envoyé avec succès !";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "❌ Erreur lors de l'envoi de l'order : " + e.getMessage();
+        }
+    }   
 }

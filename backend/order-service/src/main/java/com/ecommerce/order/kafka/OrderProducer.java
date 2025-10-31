@@ -1,23 +1,25 @@
 package com.ecommerce.order.kafka;
 
+import com.ecommerce.order.avro.OrderAvro;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
-import com.ecommerce.order.avro.Order;
-
-import org.springframework.web.bind.annotation.RequestBody;
-
-@Service
+@Component
 public class OrderProducer {
 
-    private final KafkaTemplate<String, Order> kafkaTemplate;
     private static final String TOPIC = "orders";
 
-    public OrderProducer(KafkaTemplate<String, Order> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
-    }
+    @Autowired
+    private KafkaTemplate<String, OrderAvro> kafkaTemplate;
 
+    public void sendOrder(OrderAvro order) {
+        try {
+            kafkaTemplate.send(TOPIC, order.getOrderId(), order);
+            System.out.println("📦 Order envoyé au topic Kafka : " + order.getOrderId());
+        } catch (Exception e) {
+            System.err.println("❌ Erreur lors de l'envoi de l'order à Kafka : " + e.getMessage());
+            throw e;
+        }
+    }
 }
