@@ -1,0 +1,7 @@
+com\ecommerce\order\avro\Order.class
+com\ecommerce\order\config\KafkaProducerConfig.class
+com\ecommerce\order\OrderServiceApplication.class
+com\ecommerce\order\controller\OrderController.class
+com\ecommerce\order\kafka\OrderConsumer.class
+com\ecommerce\order\kafka\OrderProducer.class
+com\ecommerce\order\avro\Order$Builder.class
