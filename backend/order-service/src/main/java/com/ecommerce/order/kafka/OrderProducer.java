@@ -1,25 +1,26 @@
 package com.ecommerce.order.kafka;
 
 import com.ecommerce.order.avro.OrderAvro;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ecommerce.order.model.Order;
+import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class OrderProducer {
 
+    private final KafkaTemplate<String, OrderAvro> kafkaTemplate;
     private static final String TOPIC = "orders";
 
-    @Autowired
-    private KafkaTemplate<String, OrderAvro> kafkaTemplate;
+    public void sendOrder(Order order) {
+        OrderAvro orderAvro = OrderAvro.newBuilder()
+                .setOrderId(order.getOrderId())
+                .setProduct(order.getProduct())
+                .setQuantity(order.getQuantity())
+                .setPrice(order.getPrice())
+                .build();
 
-    public void sendOrder(OrderAvro order) {
-        try {
-            kafkaTemplate.send(TOPIC, order.getOrderId(), order);
-            System.out.println("📦 Order envoyé au topic Kafka : " + order.getOrderId());
-        } catch (Exception e) {
-            System.err.println("❌ Erreur lors de l'envoi de l'order à Kafka : " + e.getMessage());
-            throw e;
-        }
+        kafkaTemplate.send(TOPIC, order.getOrderId().toString(), orderAvro);
     }
 }

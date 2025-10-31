@@ -1,6 +1,6 @@
 package com.ecommerce.order.kafka;
 
-import com.ecommerce.order.model.OrderEntity; // Ton POJO Avro généré
+import com.ecommerce.order.model.Order; // Ton POJO Avro généré
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 public class OrderConsumer {
 
     @KafkaListener(topics = "orders", groupId = "order-group")
-    public void consumeOrder(ConsumerRecord<String, OrderEntity> record) {
-        OrderEntity order = record.value();
+    public void consumeOrder(ConsumerRecord<String, Order> record) {
+        Order order = record.value();
         System.out.println("===== Order reçu =====");
         System.out.println("ID de commande: " + order.getOrderId());
         System.out.println("Client: " + order.getCustomerId());

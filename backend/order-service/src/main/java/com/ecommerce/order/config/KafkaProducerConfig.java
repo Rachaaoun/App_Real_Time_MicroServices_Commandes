@@ -1,7 +1,5 @@
 package com.ecommerce.order.config;
 
-import com.ecommerce.order.avro.Order;
-
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -16,11 +14,13 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ecommerce.avro.OrderAvro;
+
 @Configuration
 public class KafkaProducerConfig {
 
     @Bean
-    public ProducerFactory<String, Order> producerFactory() {
+    public ProducerFactory<String, OrderAvro> producerFactory() {
     Map<String, Object> configProps = new HashMap<>();
     configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -31,7 +31,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, Order> kafkaTemplate() {
+    public KafkaTemplate<String, OrderAvro> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }
