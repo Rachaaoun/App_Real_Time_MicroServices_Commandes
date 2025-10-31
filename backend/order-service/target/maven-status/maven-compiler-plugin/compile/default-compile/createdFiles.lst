@@ -1,4 +1,5 @@
 com\ecommerce\order\avro\Order.class
+com\ecommerce\order\config\KafkaConsumerConfig.class
 com\ecommerce\order\config\KafkaProducerConfig.class
 com\ecommerce\order\OrderServiceApplication.class
 com\ecommerce\order\controller\OrderController.class

@@ -1,6 +1,7 @@
 C:\Users\Racha\Documents\GitHub\E-commerce-Real-Time\backend\order-service\src\main\java\com\ecommerce\order\kafka\OrderConsumer.java
 C:\Users\Racha\Documents\GitHub\E-commerce-Real-Time\backend\order-service\src\main\java\com\ecommerce\order\config\KafkaProducerConfig.java
 C:\Users\Racha\Documents\GitHub\E-commerce-Real-Time\backend\order-service\target\generated-sources\avro\com\ecommerce\order\avro\Order.java
+C:\Users\Racha\Documents\GitHub\E-commerce-Real-Time\backend\order-service\src\main\java\com\ecommerce\order\config\KafkaConsumerConfig.java
 C:\Users\Racha\Documents\GitHub\E-commerce-Real-Time\backend\order-service\src\main\java\com\ecommerce\order\OrderServiceApplication.java
 C:\Users\Racha\Documents\GitHub\E-commerce-Real-Time\backend\order-service\src\main\java\com\ecommerce\order\kafka\OrderProducer.java
 C:\Users\Racha\Documents\GitHub\E-commerce-Real-Time\backend\order-service\src\main\java\com\ecommerce\order\controller\OrderController.java
