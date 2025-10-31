@@ -25,6 +25,8 @@ services:
   schema-registry:
     image: confluentinc/cp-schema-registry:7.4.1
     container_name: schema-registry
+    ports:
+     - "8082:8081"  # 8081 interne dans le container, 8082 sur la machine hôte
     depends_on:
       - kafka
     environment:
