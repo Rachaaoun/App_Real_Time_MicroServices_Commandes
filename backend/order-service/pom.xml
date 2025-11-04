@@ -3,6 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.ecommerce.order</groupId>
@@ -12,6 +13,7 @@
   <name>order-service</name>
   <description>Microservice de gestion des commandes</description>
 
+  <!-- ✅ Parent Spring Boot -->
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -22,50 +24,68 @@
   <properties>
     <java.version>17</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
   </properties>
 
+  <!-- ✅ Confluent Repository -->
+  <repositories>
+    <repository>
+      <id>confluent</id>
+      <name>Confluent Maven Repository</name>
+      <url>https://packages.confluent.io/maven/</url>
+    </repository>
+  </repositories>
+
   <dependencies>
-    <!-- Spring Boot Web (REST) -->
+    <!-- ✅ Spring Boot Web -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!-- Spring Data JPA -->
+    <!-- ✅ Spring Data JPA -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
 
-    <!-- MariaDB JDBC -->
+    <!-- ✅ MariaDB -->
     <dependency>
       <groupId>org.mariadb.jdbc</groupId>
       <artifactId>mariadb-java-client</artifactId>
     </dependency>
 
-    <!-- Kafka -->
+    <!-- ✅ Kafka -->
     <dependency>
       <groupId>org.springframework.kafka</groupId>
       <artifactId>spring-kafka</artifactId>
     </dependency>
 
-    <!-- Avro -->
+    <!-- ✅ Avro Core -->
     <dependency>
       <groupId>org.apache.avro</groupId>
       <artifactId>avro</artifactId>
       <version>1.11.3</version>
     </dependency>
 
- 
+    <!-- ✅ Confluent Avro Serializer -->
+    <dependency>
+      <groupId>io.confluent</groupId>
+      <artifactId>kafka-avro-serializer</artifactId>
+      <version>7.5.1</version>
+    </dependency>
 
-    <!-- Lombok -->
+    <!-- ✅ Lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <optional>true</optional>
+      <version>1.18.32</version>  <!-- ✅ ou plus récent -->
+      <scope>provided</scope>
     </dependency>
 
-    <!-- Test -->
+
+    <!-- ✅ Tests -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -75,13 +95,13 @@
 
   <build>
     <plugins>
-      <!-- Spring Boot Maven Plugin -->
+      <!-- ✅ Spring Boot Plugin -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
 
-      <!-- Avro Maven Plugin -->
+      <!-- ✅ Avro Code Generation -->
       <plugin>
         <groupId>org.apache.avro</groupId>
         <artifactId>avro-maven-plugin</artifactId>
@@ -94,11 +114,13 @@
             </goals>
             <configuration>
               <sourceDirectory>${project.basedir}/src/main/avro</sourceDirectory>
-              <outputDirectory>${project.basedir}/target/generated-sources/avro</outputDirectory>
+              <!-- ⚠️ Sortie directement dans src/main/java pour être reconnue par Spring -->
+              <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
             </configuration>
           </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
+
 </project>

@@ -1,7 +1,7 @@
 {
   "type": "record",
-  "name": "OrderAvro",
-  "namespace": "com.ecommerce.avro",
+  "name": "Order",
+  "namespace": "com.ecommerce.order.avro",
   "fields": [
     {"name": "orderId", "type": "string"},
     {"name": "customerId", "type": "string"},

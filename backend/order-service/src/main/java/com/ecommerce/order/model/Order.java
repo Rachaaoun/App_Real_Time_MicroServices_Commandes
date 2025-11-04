@@ -2,36 +2,33 @@ package com.ecommerce.order.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Order {
+
     @Id
+    @Column(name = "order_id", nullable = false, unique = true)
     private String orderId;
-    private String product;
+
+    @Column(name = "customer_id", nullable = false)
+    private String customerId;
+
+    @Column(name = "product_id", nullable = false)
+    private String productId;
+
+    @Column(nullable = false)
     private int quantity;
+
+    @Column(nullable = false)
     private double price;
 
-    public String getOrderId() {
-       return this.orderId;
-    }
-
-    public String getProductId() {
-        return this.product;
-    }
-
-    public int getQuantity() {
-       return this.quantity;
-    }
-
-    public Double getPrice() {
-        return this.price;
-    }
-
-    public String getOrderDate() {
-       return this.getOrderDate();
-    }
+    @Column(name = "order_date", nullable = false)
+    private String orderDate;
 }

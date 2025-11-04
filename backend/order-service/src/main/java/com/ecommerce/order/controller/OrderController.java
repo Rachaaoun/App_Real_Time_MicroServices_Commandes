@@ -12,8 +12,25 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping
-    public Order createOrder(@RequestBody Order order) {
-        return orderService.createOrder(order);
-    }
+@PostMapping
+public Order createOrder(
+        @RequestParam String orderId,
+        @RequestParam String customerId,
+        @RequestParam String productId,
+        @RequestParam int quantity,
+        @RequestParam double price,
+        @RequestParam String orderDate
+) {
+    Order order = Order.builder()
+            .orderId(orderId)
+            .customerId(customerId)
+            .productId(productId)
+            .quantity(quantity)
+            .price(price)
+            .orderDate(orderDate)
+            .build();
+
+    return orderService.createOrder(order);
+}
+
 }
