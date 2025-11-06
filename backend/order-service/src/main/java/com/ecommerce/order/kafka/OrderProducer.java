@@ -1,30 +1,32 @@
 package com.ecommerce.order.kafka;
 
-import com.ecommerce.order.avro.OrderAvro;
 import com.ecommerce.order.model.Order;
-import lombok.RequiredArgsConstructor;
+import com.ecommerce.order.avro.OrderAvro;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-@RequiredArgsConstructor // ✅ Lombok génère un constructeur pour les champs final
+@Service
 public class OrderProducer {
 
-    private final KafkaTemplate<String, OrderAvro> kafkaTemplate; // ✅ injecté automatiquement
-    private static final String TOPIC = "orders_V2";
+    private static final String TOPIC = "orders";
+
+    private final KafkaTemplate<String, OrderAvro> kafkaTemplate;
+
+    public OrderProducer(KafkaTemplate<String, OrderAvro> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
 
     public void sendOrder(Order order) {
-        // ✅ Création de l'objet Avro à partir du modèle
-        OrderAvro orderAvro = OrderAvro.newBuilder()
-                .setOrderId(order.getOrderId())
-                .setCustomerId(order.getCustomerId())
-                .setProductId(order.getProductId())
-                .setQuantity(order.getQuantity())
-                .setPrice(order.getPrice())
-                .setOrderDate(order.getOrderDate().toString())
-                .build();
+        OrderAvro orderAvro = new OrderAvro(
+            order.getOrderId(),
+            order.getCustomerId(),
+            order.getProductId(),
+            order.getQuantity(),
+            order.getPrice(),
+            order.getOrderDate()
+        );
 
-        kafkaTemplate.send(TOPIC, orderAvro.getOrderId().toString(), orderAvro);
-        System.out.println("✅ Order envoyé dans Kafka: " + orderAvro);
+        kafkaTemplate.send(TOPIC, String.valueOf(order.getOrderId()), orderAvro);
+        System.out.println("✅ Message Kafka envoyé : " + orderAvro);
     }
 }

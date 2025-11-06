@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -192455316616439257L;
+  private static final long serialVersionUID = -8535559889330530972L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"OrderAvro\",\"namespace\":\"com.ecommerce.order.avro\",\"fields\":[{\"name\":\"orderId\",\"type\":\"string\"},{\"name\":\"customerId\",\"type\":\"string\"},{\"name\":\"productId\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"int\"},{\"name\":\"price\",\"type\":\"double\"},{\"name\":\"orderDate\",\"type\":\"string\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"OrderAvro\",\"namespace\":\"com.ecommerce.order.avro\",\"fields\":[{\"name\":\"orderId\",\"type\":\"long\"},{\"name\":\"customerId\",\"type\":\"string\"},{\"name\":\"productId\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"int\"},{\"name\":\"price\",\"type\":\"double\"},{\"name\":\"orderDate\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -73,7 +73,7 @@ public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase imple
     return DECODER.decode(b);
   }
 
-  private java.lang.CharSequence orderId;
+  private long orderId;
   private java.lang.CharSequence customerId;
   private java.lang.CharSequence productId;
   private int quantity;
@@ -96,7 +96,7 @@ public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase imple
    * @param price The new value for price
    * @param orderDate The new value for orderDate
    */
-  public OrderAvro(java.lang.CharSequence orderId, java.lang.CharSequence customerId, java.lang.CharSequence productId, java.lang.Integer quantity, java.lang.Double price, java.lang.CharSequence orderDate) {
+  public OrderAvro(java.lang.Long orderId, java.lang.CharSequence customerId, java.lang.CharSequence productId, java.lang.Integer quantity, java.lang.Double price, java.lang.CharSequence orderDate) {
     this.orderId = orderId;
     this.customerId = customerId;
     this.productId = productId;
@@ -130,7 +130,7 @@ public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase imple
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: orderId = (java.lang.CharSequence)value$; break;
+    case 0: orderId = (java.lang.Long)value$; break;
     case 1: customerId = (java.lang.CharSequence)value$; break;
     case 2: productId = (java.lang.CharSequence)value$; break;
     case 3: quantity = (java.lang.Integer)value$; break;
@@ -144,7 +144,7 @@ public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase imple
    * Gets the value of the 'orderId' field.
    * @return The value of the 'orderId' field.
    */
-  public java.lang.CharSequence getOrderId() {
+  public long getOrderId() {
     return orderId;
   }
 
@@ -153,7 +153,7 @@ public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase imple
    * Sets the value of the 'orderId' field.
    * @param value the value to set.
    */
-  public void setOrderId(java.lang.CharSequence value) {
+  public void setOrderId(long value) {
     this.orderId = value;
   }
 
@@ -283,7 +283,7 @@ public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase imple
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<OrderAvro>
     implements org.apache.avro.data.RecordBuilder<OrderAvro> {
 
-    private java.lang.CharSequence orderId;
+    private long orderId;
     private java.lang.CharSequence customerId;
     private java.lang.CharSequence productId;
     private int quantity;
@@ -363,7 +363,7 @@ public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase imple
       * Gets the value of the 'orderId' field.
       * @return The value.
       */
-    public java.lang.CharSequence getOrderId() {
+    public long getOrderId() {
       return orderId;
     }
 
@@ -373,7 +373,7 @@ public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase imple
       * @param value The value of 'orderId'.
       * @return This builder.
       */
-    public com.ecommerce.order.avro.OrderAvro.Builder setOrderId(java.lang.CharSequence value) {
+    public com.ecommerce.order.avro.OrderAvro.Builder setOrderId(long value) {
       validate(fields()[0], value);
       this.orderId = value;
       fieldSetFlags()[0] = true;
@@ -394,7 +394,6 @@ public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase imple
       * @return This builder.
       */
     public com.ecommerce.order.avro.OrderAvro.Builder clearOrderId() {
-      orderId = null;
       fieldSetFlags()[0] = false;
       return this;
     }
@@ -602,7 +601,7 @@ public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase imple
     public OrderAvro build() {
       try {
         OrderAvro record = new OrderAvro();
-        record.orderId = fieldSetFlags()[0] ? this.orderId : (java.lang.CharSequence) defaultValue(fields()[0]);
+        record.orderId = fieldSetFlags()[0] ? this.orderId : (java.lang.Long) defaultValue(fields()[0]);
         record.customerId = fieldSetFlags()[1] ? this.customerId : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.productId = fieldSetFlags()[2] ? this.productId : (java.lang.CharSequence) defaultValue(fields()[2]);
         record.quantity = fieldSetFlags()[3] ? this.quantity : (java.lang.Integer) defaultValue(fields()[3]);
@@ -640,7 +639,7 @@ public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase imple
   @Override public void customEncode(org.apache.avro.io.Encoder out)
     throws java.io.IOException
   {
-    out.writeString(this.orderId);
+    out.writeLong(this.orderId);
 
     out.writeString(this.customerId);
 
@@ -659,7 +658,7 @@ public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase imple
   {
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
-      this.orderId = in.readString(this.orderId instanceof Utf8 ? (Utf8)this.orderId : null);
+      this.orderId = in.readLong();
 
       this.customerId = in.readString(this.customerId instanceof Utf8 ? (Utf8)this.customerId : null);
 
@@ -675,7 +674,7 @@ public class OrderAvro extends org.apache.avro.specific.SpecificRecordBase imple
       for (int i = 0; i < 6; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
-          this.orderId = in.readString(this.orderId instanceof Utf8 ? (Utf8)this.orderId : null);
+          this.orderId = in.readLong();
           break;
 
         case 1:

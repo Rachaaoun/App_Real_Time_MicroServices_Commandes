@@ -15,7 +15,7 @@ public class Order {
 
     @Id
     @Column(name = "order_id", nullable = false, unique = true)
-    private String orderId;
+    private Long orderId;
 
     @Column(name = "customer_id", nullable = false)
     private String customerId;

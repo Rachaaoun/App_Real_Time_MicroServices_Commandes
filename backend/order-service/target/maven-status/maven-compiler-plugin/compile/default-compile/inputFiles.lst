@@ -1,5 +1,4 @@
 C:\Users\Racha\Documents\GitHub\App_Real_Time_MicroServices_Commandes\backend\order-service\src\main\java\com\ecommerce\order\config\KafkaConsumerConfig.java
-C:\Users\Racha\Documents\GitHub\App_Real_Time_MicroServices_Commandes\backend\order-service\src\main\java\com\ecommerce\order\avro\Order.java
 C:\Users\Racha\Documents\GitHub\App_Real_Time_MicroServices_Commandes\backend\order-service\src\main\java\com\ecommerce\order\model\Order.java
 C:\Users\Racha\Documents\GitHub\App_Real_Time_MicroServices_Commandes\backend\order-service\src\main\java\com\ecommerce\order\OrderServiceApplication.java
 C:\Users\Racha\Documents\GitHub\App_Real_Time_MicroServices_Commandes\backend\order-service\src\main\java\com\ecommerce\order\kafka\OrderProducer.java

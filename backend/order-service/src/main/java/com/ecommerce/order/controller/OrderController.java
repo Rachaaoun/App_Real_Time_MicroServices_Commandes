@@ -27,14 +27,14 @@ public class OrderController {
     @GetMapping
     public String listOrders(Model model) {
         model.addAttribute("orders", orderRepository.findAll());
-        return "orders";
+        return "orders/orders";
     }
 
     // Formulaire d’ajout
     @GetMapping("/new")
     public String showAddForm(Model model) {
         model.addAttribute("order", new Order());
-        return "add-order";
+        return "orders/add-order";
     }
 
     // Sauvegarde du formulaire
