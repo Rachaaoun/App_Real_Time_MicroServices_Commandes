@@ -4,7 +4,10 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
 COPY src ./src
-RUN mvn clean package -DskipTests
+
+# Utiliser le goal 'spring-boot:repackage' pour inclure toutes les dépendances
+RUN mvn clean package spring-boot:repackage -DskipTests
+
 
 # Étape 2 : Image finale légère
 FROM eclipse-temurin:21-jdk-alpine

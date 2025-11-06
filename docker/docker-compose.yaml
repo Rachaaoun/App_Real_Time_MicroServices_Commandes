@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
 
   # Zookeeper
@@ -58,26 +60,26 @@ services:
       retries: 5
       start_period: 10s
 
-  # MariaDB / MySQL
   # MariaDB
   mariadb:
     image: mariadb:11
     container_name: mariadb
-  environment:
-    MYSQL_ROOT_PASSWORD: docker123    # mot de passe root obligatoire
-    MYSQL_DATABASE: orderdb
-    MYSQL_USER: docker                 # nouvel utilisateur pour Order Service
-    MYSQL_PASSWORD: docker123
+    restart: always
+    environment:
+      MARIADB_DATABASE: orderdb
+      MARIADB_USER: docker
+      MARIADB_PASSWORD: docker123
+      MARIADB_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
       - mariadb-data:/var/lib/mysql
-  healthcheck:
-    test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pdocker123"]
-    interval: 10s
-    retries: 5
-    start_period: 10s
-
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -u docker -pdocker123 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s  # ← laisse MariaDB respirer au démarrage
 
   # Order Service
   order-service:
@@ -97,9 +99,14 @@ services:
     volumes:
       - ./backend/order-service/src/main/resources/application.properties:/app/config/application.properties
     environment:
-      SPRING_CONFIG_LOCATION: file:/app/config/
-      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_LOCATION: file:/app/config/application.properties
     restart: on-failure
+    networks:
+      - ecommerce-network
 
 volumes:
   mariadb-data:
+
+networks:
+  ecommerce-network:
+    driver: bridge
