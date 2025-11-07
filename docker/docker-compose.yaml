@@ -2,7 +2,6 @@ version: "3.9"
 
 services:
 
-  # Zookeeper
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.1
     container_name: zookeeper
@@ -17,7 +16,6 @@ services:
       retries: 5
       start_period: 10s
 
-  # Kafka
   kafka:
     image: confluentinc/cp-kafka:7.4.1
     container_name: kafka
@@ -27,20 +25,26 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+
+      # --- listeners: interne (pour containers) + externe (pour host) ---
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
+      # advertised listeners: interne = kafka:9092, externe = localhost:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
     ports:
-      - "9092:9092"
+      - "9092:9092"      # interne/externe mapping (utile pour autres containers)
+      - "29092:29092"    # port externe utilisé par l'app locale (localhost:29092)
     healthcheck:
       test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
       interval: 10s
       retries: 5
       start_period: 10s
 
-  # Schema Registry
   schema-registry:
     image: confluentinc/cp-schema-registry:7.4.1
     container_name: schema-registry
@@ -50,6 +54,7 @@ services:
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+      # Important: Schema Registry (dans Docker) doit joindre kafka via l'adresse interne
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:9092
     ports:
       - "8081:8081"

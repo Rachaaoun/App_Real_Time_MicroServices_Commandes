@@ -9,5 +9,6 @@ com\ecommerce\order\config\KafkaConsumerConfig.class
 com\ecommerce\order\OrderServiceApplication.class
 com\ecommerce\order\controller\OrderController.class
 com\ecommerce\order\model\Order$OrderBuilder.class
+com\ecommerce\order\kafka\OrderProducer$1.class
 com\ecommerce\order\model\Order.class
 com\ecommerce\order\repository\OrderRepository.class

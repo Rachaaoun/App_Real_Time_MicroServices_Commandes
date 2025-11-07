@@ -3,8 +3,14 @@ package com.ecommerce.order.service;
 import com.ecommerce.order.model.Order;
 import com.ecommerce.order.kafka.OrderProducer;
 import com.ecommerce.order.repository.OrderRepository;
+
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -18,12 +24,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order createOrder(Order order) {
-        // Sauvegarde dans la base
         Order savedOrder = orderRepository.save(order);
-
-        // Envoi dans Kafka
-        orderProducer.sendOrder(savedOrder);
-
+        try {
+            orderProducer.sendOrder(savedOrder); // non-bloquant grâce au callback/whenComplete
+        } catch (Exception e) {
+            log.error("Erreur lors de l'envoi Kafka pour order {} : {}", savedOrder.getOrderId(), e.getMessage(), e);
+        }
         return savedOrder;
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        orderRepository.deleteById(id);
     }
 }

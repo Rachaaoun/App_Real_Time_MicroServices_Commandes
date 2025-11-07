@@ -11,9 +11,6 @@
 
 <form th:action="@{/orders}" th:object="${order}" method="post">
 
-    <label for="orderId">ID Commande :</label>
-    <input type="number" id="orderId" th:field="*{orderId}" required><br>
-
     <label for="customerId">ID Client :</label>
     <input type="text" id="customerId" th:field="*{customerId}" required><br>
 
@@ -21,10 +18,10 @@
     <input type="text" id="productId" th:field="*{productId}" required><br>
 
     <label for="quantity">Quantité :</label>
-    <input type="number" id="quantity" th:field="*{quantity}" required><br>
+    <input type="number" id="quantity" th:field="*{quantity}" min="1" required><br>
 
     <label for="price">Prix :</label>
-    <input type="number" step="0.01" id="price" th:field="*{price}" required><br>
+    <input type="number" step="0.01" id="price" th:field="*{price}" min="0" required><br>
 
     <label for="orderDate">Date de commande :</label>
     <input type="text" id="orderDate" th:field="*{orderDate}" placeholder="YYYY-MM-DD" required><br>

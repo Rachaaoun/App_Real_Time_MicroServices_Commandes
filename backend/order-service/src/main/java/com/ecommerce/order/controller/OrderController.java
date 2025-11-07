@@ -1,32 +1,28 @@
 package com.ecommerce.order.controller;
 
 import com.ecommerce.order.model.Order;
-import com.ecommerce.order.repository.OrderRepository;
 import com.ecommerce.order.service.OrderService;
-
-import lombok.RequiredArgsConstructor;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/orders")
 public class OrderController {
 
-   
-    private  OrderService orderService;
-    private  OrderRepository orderRepository;
+    private final OrderService orderService;
 
-    public OrderController(OrderRepository orderRepository,OrderService orderService) {
-        this.orderRepository = orderRepository;
+    // Injection via constructeur
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
-   // Liste des commandes
+
+    // Liste des commandes
     @GetMapping
     public String listOrders(Model model) {
-        model.addAttribute("orders", orderRepository.findAll());
+        model.addAttribute("orders", orderService.findAll()); // nécessite findAll() dans le service (voir note)
         return "orders/orders";
     }
 
@@ -37,40 +33,20 @@ public class OrderController {
         return "orders/add-order";
     }
 
-    // Sauvegarde du formulaire
+    // Sauvegarde du formulaire -> utilise le service pour DB + Kafka
     @PostMapping
-    public String addOrder(@ModelAttribute Order order) {
-        orderRepository.save(order);
+    public String addOrder(@ModelAttribute("order") @Valid Order order, BindingResult result) {
+        if (result.hasErrors()) {
+            return "orders/add-order";
+        }
+        orderService.createOrder(order); // IMPORTANT : sauvegarde + envoi Kafka
         return "redirect:/orders";
     }
 
-    
     // Supprimer une commande
     @GetMapping("/delete/{id}")
     public String deleteOrder(@PathVariable Long id) {
-        orderRepository.deleteById(id);
+        orderService.deleteById(id); // recommande géré par le service
         return "redirect:/orders";
     }
-
-// @PostMapping
-// public Order createOrder(
-//         @RequestParam String orderId,
-//         @RequestParam String customerId,
-//         @RequestParam String productId,
-//         @RequestParam int quantity,
-//         @RequestParam double price,
-//         @RequestParam String orderDate
-// ) {
-//     Order order = Order.builder()
-//             .orderId(orderId)
-//             .customerId(customerId)
-//             .productId(productId)
-//             .quantity(quantity)
-//             .price(price)
-//             .orderDate(orderDate)
-//             .build();
-
-//     return orderService.createOrder(order);
-// }
-
 }
