@@ -19,3 +19,8 @@ EXPOSE 8083
 
 # Commande de démarrage
 ENTRYPOINT ["java", "-jar", "order-service.jar"]
+
+
+#docker run -p 8085:8083 imagename
+#gateway
+#docker:standard,isolé , non accessible depuis l'exterieur , volumes 
